@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - pixel
+  - Pin
+  - CellPixel
+  - Cell
+  - NickelPixel
+  - Nickel
+  - WeldingPixel
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - pixel
+  - holder
+  - pinPixel
+  - cellPixel
+  - cell
+  - nickelPixel
+  - nickel
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Pixel
+    uniqueID: 3304651583
+    locked: 0
+  - name: Holder
+    uniqueID: 1108911797
+    locked: 0
+  - name: PinPixel
+    uniqueID: 3994722449
+    locked: 0
+  - name: CellPixel
+    uniqueID: 3994790129
+    locked: 0
+  - name: Cell
+    uniqueID: 2846896083
+    locked: 0
+  - name: NickelPixel
+    uniqueID: 3144398215
+    locked: 0
+  - name: WeldingPixel
+    uniqueID: 4052227313
+    locked: 0
