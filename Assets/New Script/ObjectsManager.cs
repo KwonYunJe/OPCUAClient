@@ -12,6 +12,8 @@ public class ObjectsManager: MonoBehaviour
     public GameObject[] Nickel;
     public GameObject[] Welding;   
 
+
+    //유형에 따른 오브젝트 생성 함수
     public GameObject InstantiateObject(Property.TaskType _taskType, int _taskID, int _x, int _y){
 
         GameObject _taskObject = null;

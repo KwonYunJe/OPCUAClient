@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Task
 {
-
+    //작업 시작
     public void StartTask(int[] _crdn){
         Property.TaskType taskType = GameManager.instance.property.taskType;
         TaskUnit AddTaskUnit = new TaskUnit(Property.TaskType.Holder, 0, _crdn[0], _crdn[1]);
