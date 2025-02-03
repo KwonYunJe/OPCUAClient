@@ -14,7 +14,7 @@ public class ObjectsManager: MonoBehaviour
 
 
     //유형에 따른 오브젝트 생성 함수
-    public GameObject InstantiateObject(Property.TaskType _taskType, int _taskID, int _x, int _y){
+    public GameObject InstantiateObject(Property.TaskType _taskType, int _taskID, float _x, float _y){
 
         GameObject _taskObject = null;
         

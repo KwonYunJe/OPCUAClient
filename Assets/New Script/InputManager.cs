@@ -13,10 +13,13 @@ public class InputManager : MonoBehaviour
     public Vector3 boxSize;
     public bool CursorOnUI;
     public bool CursorOnPanel;
-    public bool Movealbe;
-    public int[] GizmoVal = new int[3];
+    public bool IsPut;
+    public bool IsErase;
 
     public RaycastHit[] hit;
+    public RaycastHit hitOne;
+    public int DetectedCount;
+    public GameObject[] DetectedObject;
     
 
     // Start is called before the first frame update
@@ -32,8 +35,22 @@ public class InputManager : MonoBehaviour
         DetectCursorOnPanel();
         SetMousePosition();
         SetMouseProperty();
+        // DrawRay();
+        // DetectClick();
+        // CanCreateObject();
+        UpdateAble();
+    }
+
+    void UpdateAble(){
+        if(!CursorOnPanel || CursorOnUI){
+            return;
+        }
+        // SetMousePosition();
+        // SetMouseProperty();
         GetKey();
         DrawRay();
+        DetectClick();
+        CanCreateObject();
     }
 
     //마우스 커서의 위치를 감지하는 함수
@@ -58,7 +75,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    //마우스 위치에 큐브 생성
+    //마우스 위치에 Gizmo 생성
     private void OnDrawGizmos() {
         Gizmos.color = new Color(1, 0, 0, 0.5f);
         
@@ -68,14 +85,34 @@ public class InputManager : MonoBehaviour
         Gizmos.DrawWireCube(center, boxSize);
     }
 
+    //Ray를 그리는 함수
     void DrawRay(){
-        hit = Physics.BoxCastAll(center, boxSize / 2, Vector3.down, Quaternion.identity, 100);
+        //박스로 픽셀을 판단 
+        hit = Physics.BoxCastAll(center, boxSize / 2, Vector3.back, Quaternion.identity, 0);
+        
+        //Ray를 그려서 오브젝트를 판단, 마우스 위치에 아래의 오브젝트들이 존재하면 오브젝트를 지울 수 있음
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if(Physics.Raycast(ray, out hitOne)){
+            if(hitOne.collider.tag == "Holder" || hitOne.collider.tag == "HolderPin" || hitOne.collider.tag == "Cell" || hitOne.collider.tag == "Nickel" || hitOne.collider.tag == "Welding"){
+                IsErase = true;
+            }else{  
+                IsErase = false;
+            }
+        }
+
         if(hit.Length > 0){
             //Debug.Log(hit.Length);
-            foreach(RaycastHit h in hit){
-                Debug.Log(h.collider.name);
+            DetectedCount = hit.Length;
+            DetectedObject = new GameObject[DetectedCount];
+            for(int i = 0; i < DetectedCount; i++){
+                DetectedObject[i] = hit[i].collider.gameObject;
             }
+            // foreach(RaycastHit h in hit){
+            //     Debug.Log(h.collider.name);
+            // }
         }else{
+            DetectedCount = 0;
+            DetectedObject = null;
         }
     }
 
@@ -86,38 +123,67 @@ public class InputManager : MonoBehaviour
             case Property.HolderType.Holder2x1:
             //2배열 짜리는 가운데가 달라서 아래와 같이 center를 설정해줘야 함
                 center = new Vector3((float)Math.Round(mousePosition.x + 0.5f) - 0.5f, (float)Math.Round(mousePosition.y), 0);
-                boxSize = new Vector3(2 , 1 , 0.1f);
+                boxSize = new Vector3(1.9f , 0.9f , 0);
                 break;
             case Property.HolderType.Holder1x2:
                 center = new Vector3((float)Math.Round(mousePosition.x), (float)Math.Round(mousePosition.y + 0.5f) - 0.5f, 0);
-                boxSize = new Vector3(1 , 2 , 0.1f);
+                boxSize = new Vector3(0.9f , 1.9f , 0);
                 break;
             default:
                 center = new Vector3((float)Math.Round(mousePosition.x), (float)Math.Round(mousePosition.y), 0);
                 if(GameManager.instance.property.holderType == Property.HolderType.Holder3x1){
-                    boxSize = new Vector3(3 , 1 , 0.1f);
+                    boxSize = new Vector3(2.9f , 0.9f , 0);
                 }else if(GameManager.instance.property.holderType == Property.HolderType.Holder1x3){
-                    boxSize = new Vector3(1 , 3 , 0.1f);
+                    boxSize = new Vector3(0.9f , 2.9f , 0);
                 }else if(GameManager.instance.property.holderType == Property.HolderType.Holder5x5){
-                    boxSize = new Vector3(5 , 5 , 0.1f);
+                    boxSize = new Vector3(4.9f , 4.9f , 0);
                 }
                 break;
             }
         }
-        
+    }
+
+    //대충 픽셀 오브젝트 이외의 오브젝트가 탐지되면 작업 오브젝트를 생성할 수 없게 함
+    void CanCreateObject(){
+        if(DetectedCount == 0){
+            IsPut = false;
+        }else{
+            foreach(GameObject obj in DetectedObject){
+                if(obj.tag == "Holder" || obj.tag == "HolderPin" || obj.tag == "Cell" || obj.tag == "Nickel" || obj.tag == "Welding"){
+                    IsPut = false;
+                    return;
+                }
+            }
+            IsPut = true;
+        }
+    }
+
+    //클릭 감지
+    void DetectClick(){
+        if(Input.GetMouseButtonDown(0) && IsPut){
+            if(CursorOnPanel){
+                if(GameManager.instance.property.taskType == Property.TaskType.Holder){
+                    GameManager.instance.task.CreateTask(new float[]{center.x, center.y});
+                }
+            }
+        }else if(Input.GetMouseButtonDown(1)){
+            GameManager.instance.task.EraseTask(hitOne.collider.gameObject);
+        }
     }
 
     void GetKey(){
         if(Input.GetKeyDown("1")){
-            GameManager.instance.property.holderType = Property.HolderType.Holder2x1;
+            GameManager.instance.property.SetProperty(0);
         }else if(Input.GetKeyDown("2")){
-            GameManager.instance.property.holderType = Property.HolderType.Holder1x2;
+            GameManager.instance.property.SetProperty(1);
         }else if(Input.GetKeyDown("3")){
-            GameManager.instance.property.holderType = Property.HolderType.Holder3x1;
+            GameManager.instance.property.SetProperty(2);
         }else if(Input.GetKeyDown("4")){
-            GameManager.instance.property.holderType = Property.HolderType.Holder1x3;
+            GameManager.instance.property.SetProperty(3);
         }else if(Input.GetKeyDown("5")){
-            GameManager.instance.property.holderType = Property.HolderType.Holder5x5;
+            GameManager.instance.property.SetProperty(4);
+        }else if(Input.GetKeyDown(KeyCode.Tab)){
+            GameManager.instance.property.ChangeTaskType();
         }
     }
 }

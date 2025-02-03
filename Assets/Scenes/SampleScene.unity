@@ -26893,6 +26893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectsManager: {fileID: 1018943911}
+  inputManager: {fileID: 1055549705}
 --- !u!4 &670581720
 Transform:
   m_ObjectHideFlags: 0
@@ -44063,12 +44064,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mousePosition: {x: 0, y: 0, z: 0}
-  mousePositionInt: {x: 0, y: 0, z: 0}
   center: {x: 0, y: 0, z: 0}
+  boxSize: {x: 0, y: 0, z: 0}
   CursorOnUI: 0
   CursorOnPanel: 0
   Movealbe: 0
-  GizmoVal: 020000000100000000000000
+  DetectedCount: 0
+  DetectedObject: []
 --- !u!4 &1055549706
 Transform:
   m_ObjectHideFlags: 0

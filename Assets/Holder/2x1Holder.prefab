@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 6552505645916080566}
   - component: {fileID: -1215530966979908842}
   - component: {fileID: 8715909686388225405}
+  - component: {fileID: 8620671800123516756}
   m_Layer: 7
   m_Name: 2x1Holder
-  m_TagString: Untagged
+  m_TagString: Holder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55,6 +56,8 @@ MonoBehaviour:
   HolderType: 0
   HavePixel: []
   RecordLine: {fileID: 0}
+  MinCrd: 
+  MaxCrd: 
 --- !u!212 &8715909686388225405
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -107,6 +110,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &8620671800123516756
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144175211853051687}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 1, z: 0.11}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1426782211946183269
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +158,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.05, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6552505645916080566}
