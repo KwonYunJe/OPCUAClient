@@ -53,6 +53,8 @@ public class Property
 {
     public enum TaskType{Holder, HolderPin, Cell, Nickel, Welding}
     public TaskType taskType;
+    public enum PinType{Pin1}
+    public PinType pinType;
     public enum HolderType{Holder2x1, Holder1x2, Holder3x1, Holder1x3, Holder5x5}
     public HolderType holderType;
     public enum CellType{Plus_M50, Minus_M50, Pluse_50E, Minus_50E, Pluse_40T, Minus_40T}
@@ -73,7 +75,7 @@ public class Property
         switch(taskType){
             case TaskType.Holder:
                 if(_taskID >= HolderType.GetValues(typeof(HolderType)).Length){
-                    Debug.LogError("There is no such holder type");
+                    Debug.Log("There is no such holder type");
                     return;
                 }else{
                     holderType = (HolderType)_taskID;
@@ -84,7 +86,7 @@ public class Property
                 break;
             case TaskType.Cell:
                 if(_taskID >= CellType.GetValues(typeof(CellType)).Length){
-                    Debug.LogError("There is no such cell type");
+                    Debug.Log("There is no such cell type");
                     return;
                 }else{
                     cellType = (CellType)_taskID;
@@ -92,7 +94,7 @@ public class Property
                 break;
             case TaskType.Nickel:
                 if(_taskID >= NickelType.GetValues(typeof(NickelType)).Length){
-                    Debug.LogError("There is no such nickel type");
+                    Debug.Log("There is no such nickel type");
                     return;
                 }else{
                     nickelType = (NickelType)_taskID;
@@ -118,3 +120,5 @@ public class Property
         return GameManager.instance.objectsManager;
     }
 }
+
+

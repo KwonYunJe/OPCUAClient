@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,17 +16,21 @@ public class InputManager : MonoBehaviour
     public bool CursorOnPanel;
     public bool IsPut;
     public bool IsErase;
+    public int layerMask;
+    public int MaxDetectedCount;
 
     public RaycastHit[] hit;
     public RaycastHit hitOne;
+    public RaycastHit hitTwo;
     public int DetectedCount;
     public GameObject[] DetectedObject;
+    public GameObject HitOneObject;
     
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        aa();
     }
 
     // Update is called once per frame
@@ -35,22 +40,20 @@ public class InputManager : MonoBehaviour
         DetectCursorOnPanel();
         SetMousePosition();
         SetMouseProperty();
-        // DrawRay();
-        // DetectClick();
-        // CanCreateObject();
         UpdateAble();
+
+        ChangeTaskTyope();
+        SetMaxDetectedCount();
     }
 
     void UpdateAble(){
         if(!CursorOnPanel || CursorOnUI){
             return;
         }
-        // SetMousePosition();
-        // SetMouseProperty();
         GetKey();
         DrawRay();
         DetectClick();
-        CanCreateObject();
+        IsInteractionObject();
     }
 
     //마우스 커서의 위치를 감지하는 함수
@@ -75,6 +78,16 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    void ChangeTaskTyope(){
+        if(GameManager.instance.property.taskType == Property.TaskType.Holder){
+            layerMask = (1 << LayerMask.NameToLayer("pixel")) + (1 << LayerMask.NameToLayer("holder"));
+        }else if(GameManager.instance.property.taskType == Property.TaskType.HolderPin){
+            layerMask = 1 << LayerMask.NameToLayer("pinPixel");
+        }else if(GameManager.instance.property.taskType == Property.TaskType.Cell){
+            layerMask = 1 << LayerMask.NameToLayer("pixel");
+        }
+    }
+
     //마우스 위치에 Gizmo 생성
     private void OnDrawGizmos() {
         Gizmos.color = new Color(1, 0, 0, 0.5f);
@@ -88,17 +101,7 @@ public class InputManager : MonoBehaviour
     //Ray를 그리는 함수
     void DrawRay(){
         //박스로 픽셀을 판단 
-        hit = Physics.BoxCastAll(center, boxSize / 2, Vector3.back, Quaternion.identity, 0);
-        
-        //Ray를 그려서 오브젝트를 판단, 마우스 위치에 아래의 오브젝트들이 존재하면 오브젝트를 지울 수 있음
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(ray, out hitOne)){
-            if(hitOne.collider.tag == "Holder" || hitOne.collider.tag == "HolderPin" || hitOne.collider.tag == "Cell" || hitOne.collider.tag == "Nickel" || hitOne.collider.tag == "Welding"){
-                IsErase = true;
-            }else{  
-                IsErase = false;
-            }
-        }
+        hit = Physics.BoxCastAll(center, boxSize / 2, Vector3.back, Quaternion.identity, default ,layerMask);
 
         if(hit.Length > 0){
             //Debug.Log(hit.Length);
@@ -113,6 +116,22 @@ public class InputManager : MonoBehaviour
         }else{
             DetectedCount = 0;
             DetectedObject = null;
+        }
+
+        //Ray를 그려서 오브젝트를 판단, 셀 한 개에 오브젝트를 놓을 때 사용
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if(Physics.Raycast(ray, out hitOne, 100, layerMask)){
+            HitOneObject = hitOne.collider.gameObject;
+        }else{
+            HitOneObject = null;
+        }
+
+        //Ray를 그려서 오브젝트를 판단, 오브젝트를 삭제할 때 사용
+        Ray ray1 = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if(Physics.Raycast(ray1, out hitTwo)){
+            //HitTwoObject = hitTwo.collider.gameObject;
+        }else{
+            //HitTwoObject = null;
         }
     }
 
@@ -140,34 +159,81 @@ public class InputManager : MonoBehaviour
                 }
                 break;
             }
+        }else if(GameManager.instance.property.taskType == Property.TaskType.HolderPin){
+            center = Vector3.zero;
+            boxSize = Vector3.zero;
+        }
+    }
+
+    void SetMaxDetectedCount(){
+        if(GameManager.instance.property.holderType == Property.HolderType.Holder2x1 || GameManager.instance.property.holderType == Property.HolderType.Holder1x2){
+            MaxDetectedCount = 2;
+        }else if(GameManager.instance.property.holderType == Property.HolderType.Holder3x1 || GameManager.instance.property.holderType == Property.HolderType.Holder1x3){
+            MaxDetectedCount = 3;
+
+        }else if(GameManager.instance.property.holderType == Property.HolderType.Holder5x5){
+            MaxDetectedCount = 25;
+        }else{
+            MaxDetectedCount = 0;
         }
     }
 
     //대충 픽셀 오브젝트 이외의 오브젝트가 탐지되면 작업 오브젝트를 생성할 수 없게 함
-    void CanCreateObject(){
-        if(DetectedCount == 0){
-            IsPut = false;
-        }else{
+    void IsInteractionObject(){
+        //오브젝트가 ray에 걸리는지(범위) 여부 판단해서 오브젝트 '생성' 가능 여부 결정
+        if(DetectedCount == MaxDetectedCount && hitOne.collider != null){
             foreach(GameObject obj in DetectedObject){
-                if(obj.tag == "Holder" || obj.tag == "HolderPin" || obj.tag == "Cell" || obj.tag == "Nickel" || obj.tag == "Welding"){
+                if(obj.tag != "pixel"){
                     IsPut = false;
                     return;
                 }
             }
             IsPut = true;
+        }else {
+            IsPut = false;
+        }
+
+        //오브젝트가 ray에 걸리는지(단일) 여부 판단해서 오브젝트 '생성' 가능 여부 결정
+
+        //오브젝트가 ray에 걸리는지 여부 판단해서 오브젝트 '삭제' 가능 여부 결정
+        if(hitTwo.collider == null){
+            IsErase = false;
+        }else{
+            if(hitTwo.collider.tag == "Holder" || hitTwo.collider.tag == "Pin" || hitTwo.collider.tag == "Cell" || hitTwo.collider.tag == "Nickel" || hitTwo.collider.tag == "Welding"){
+                IsErase = true;
+            }else{
+                IsErase = false;
+            }
         }
     }
 
     //클릭 감지
     void DetectClick(){
-        if(Input.GetMouseButtonDown(0) && IsPut){
-            if(CursorOnPanel){
-                if(GameManager.instance.property.taskType == Property.TaskType.Holder){
+        if(Input.GetMouseButtonDown(0) && IsPut ){
+            switch(GameManager.instance.property.taskType){
+                case Property.TaskType.Holder:
+                    if(hitOne.collider.tag != "pixel"){ return; }
                     GameManager.instance.task.CreateTask(new float[]{center.x, center.y});
-                }
+                    break;
+                case Property.TaskType.HolderPin:
+                    if(hitOne.collider.tag != "pinPixel"){ return; }
+                    Debug.Log("Pin pos : " + hitOne.collider.transform);
+                    GameManager.instance.task.CreateTask(new float[]{hitOne.collider.transform.position.x, hitOne.collider.transform.position.y});
+                    break;
+                case Property.TaskType.Cell:
+                    if(hitOne.collider.tag != "pixel"){ return; }
+                    Debug.Log("cell pos : " + hitOne.collider.transform);
+                    GameManager.instance.task.CreateTask(new float[]{hitOne.collider.transform.position.x, hitOne.collider.transform.position.y});
+                    break;
+                case Property.TaskType.Nickel:
+                    
+                    break;
+                case Property.TaskType.Welding:
+                    
+                    break;
             }
-        }else if(Input.GetMouseButtonDown(1)){
-            GameManager.instance.task.EraseTask(hitOne.collider.gameObject);
+        }else if(Input.GetMouseButtonDown(1) && IsErase){
+            GameManager.instance.task.EraseTask(hitTwo.collider.gameObject);
         }
     }
 
@@ -182,8 +248,17 @@ public class InputManager : MonoBehaviour
             GameManager.instance.property.SetProperty(3);
         }else if(Input.GetKeyDown("5")){
             GameManager.instance.property.SetProperty(4);
+        }else if(Input.GetKeyDown("6")){
+            GameManager.instance.property.SetProperty(5);
+
         }else if(Input.GetKeyDown(KeyCode.Tab)){
             GameManager.instance.property.ChangeTaskType();
         }
+    }
+
+    void aa(){
+        Debug.Log(hitOne.collider);
+        Debug.Log(hitTwo.collider);
+        Invoke("aa", 1f);
     }
 }

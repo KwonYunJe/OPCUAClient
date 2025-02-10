@@ -12,6 +12,10 @@ public class ObjectsManager: MonoBehaviour
     public GameObject[] Nickel;
     public GameObject[] Welding;   
 
+    public GameObject Holders;
+    public GameObject HolderPins;
+    public GameObject Cells;
+
 
     //유형에 따른 오브젝트 생성 함수
     public GameObject InstantiateObject(Property.TaskType _taskType, int _taskID, float _x, float _y){
@@ -21,12 +25,15 @@ public class ObjectsManager: MonoBehaviour
         switch(_taskType){
             case Property.TaskType.Holder:
                 _taskObject = Instantiate(Holder[_taskID], new Vector3(_x, _y, 0), Quaternion.identity);
+                _taskObject.transform.SetParent(Holders.transform);
                 break;
             case Property.TaskType.HolderPin:
                 _taskObject = Instantiate(HolderPin[_taskID], new Vector3(_x, _y, 0), Quaternion.identity);
+                _taskObject.transform.SetParent(HolderPins.transform);
                 break;
             case Property.TaskType.Cell:
                 _taskObject = Instantiate(Cell[_taskID], new Vector3(_x, _y, 0), Quaternion.identity);
+                _taskObject.transform.SetParent(Cells.transform);
                 break;
             case Property.TaskType.Nickel:
                 _taskObject = Instantiate(Nickel[_taskID], new Vector3(_x, _y, 0), Quaternion.identity);
@@ -37,5 +44,10 @@ public class ObjectsManager: MonoBehaviour
         }
 
         return _taskObject;
+    }
+
+    public bool DestroyObject(GameObject _gameObject){
+        Destroy(_gameObject);
+        return true;
     }
 }

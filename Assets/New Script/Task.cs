@@ -15,6 +15,7 @@ public class Task
                 taskID = (int)GameManager.instance.property.holderType;
                 break;
             case Property.TaskType.HolderPin:
+                taskID = (int)GameManager.instance.property.pinType;
                 break;
             case Property.TaskType.Cell:
                 taskID = (int)GameManager.instance.property.cellType;
@@ -25,36 +26,61 @@ public class Task
             case Property.TaskType.Welding:
                 break;
         }
-        TaskUnit addTaskUnit = new TaskUnit(Property.TaskType.Holder, taskID, _crdn[0], _crdn[1]);
 
         switch(taskType){
             case Property.TaskType.Holder:
+                TaskUnit addTaskUnit = new TaskUnit(Property.TaskType.Holder, taskID, _crdn[0], _crdn[1]);
                 GameManager.instance.taskDATA.HolderTaskList.Add(addTaskUnit);
+                Debug.Log("Holder count : " + GameManager.instance.taskDATA.HolderTaskList.Count);
                 break;
             case Property.TaskType.HolderPin:
+                addTaskUnit = new TaskUnit(Property.TaskType.HolderPin, taskID, _crdn[0], _crdn[1]);
                 GameManager.instance.taskDATA.PinTaskList.Add(addTaskUnit);
+                Debug.Log("HolderPin count : " + GameManager.instance.taskDATA.HolderTaskList.Count);
                 break;
             case Property.TaskType.Cell:
+                addTaskUnit = new TaskUnit(Property.TaskType.Cell, taskID, _crdn[0], _crdn[1]);
                 GameManager.instance.taskDATA.CellTaskList.Add(addTaskUnit);
+                Debug.Log("Cell count : " + GameManager.instance.taskDATA.HolderTaskList.Count);
                 break;
             case Property.TaskType.Nickel:
+                addTaskUnit = new TaskUnit(Property.TaskType.Nickel, taskID, _crdn[0], _crdn[1]);
                 GameManager.instance.taskDATA.NickelTaskList.Add(addTaskUnit);
+                Debug.Log("Nickel count : " + GameManager.instance.taskDATA.HolderTaskList.Count);
                 break;
             case Property.TaskType.Welding:
+                addTaskUnit = new TaskUnit(Property.TaskType.Welding, taskID, _crdn[0], _crdn[1]);
                 GameManager.instance.taskDATA.WeldingTaskList.Add(addTaskUnit);
+                Debug.Log("Welding count : " + GameManager.instance.taskDATA.HolderTaskList.Count);
                 break;
         }
     }
 
-    public void EraseTask(GameObject _gameObject){
-        //1. 넘어오는 게임 오브젝트는 모드마다 다를것이므로 현재 모드에 맞춰 리스트를 선택해 줄 필요 없음.
-        //1-1. 아 빡대가린갑다. 넘어오는 오브젝트의 타입으로 리스트를 고르던 지금 모드로 리스트를 고르던 해야함.
-        //2. 넘겨받은 오브젝트로 리스트에서 해당 오브젝트를 찾는다.
-        //3. 찾은 오브젝트가 담긴 Task를 삭제한다.
-        //4. 해당 오브젝트를 삭제한다.
-        //내일 하자.
-    }
+    public void EraseTask(GameObject _gameObject) {
+        // 태그와 리스트를 매핑하는 딕셔너리 생성
+        Dictionary<string, List<TaskUnit>> taskListMap = new Dictionary<string, List<TaskUnit>> {
+            { "Holder", GameManager.instance.taskDATA.HolderTaskList },
+            { "Pin", GameManager.instance.taskDATA.PinTaskList },
+            { "Cell", GameManager.instance.taskDATA.CellTaskList },
+            { "Nickel", GameManager.instance.taskDATA.NickelTaskList },
+            { "Welding", GameManager.instance.taskDATA.WeldingTaskList }
+        };
 
+        // 태그에 맞는 리스트가 있는지 확인
+        if (taskListMap.TryGetValue(_gameObject.tag, out List<TaskUnit> taskList)) {
+            // 리스트에서 해당 오브젝트를 찾고 삭제
+            for (int i = 0; i < taskList.Count; i++) {
+                if (taskList[i].TaskObject == _gameObject) {
+                    taskList.RemoveAt(i);
+                    // 오브젝트 삭제
+                    GameManager.instance.objectsManager.DestroyObject(_gameObject);
+                    break;
+                }
+            }
+        } else {
+            Debug.LogWarning("Unknown tag: " + _gameObject.tag);
+        }
+    }
 }
 
 public class TaskDATA
