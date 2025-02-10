@@ -78,6 +78,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    //작업 타입에 따라 레이어 마스크 변경
     void ChangeTaskTyope(){
         if(GameManager.instance.property.taskType == Property.TaskType.Holder){
             layerMask = (1 << LayerMask.NameToLayer("pixel")) + (1 << LayerMask.NameToLayer("holder"));
@@ -194,6 +195,34 @@ public class InputManager : MonoBehaviour
         }
 
         //오브젝트가 ray에 걸리는지(단일) 여부 판단해서 오브젝트 '생성' 가능 여부 결정
+        if(hitOne.collider != null){
+            switch(GameManager.instance.property.taskType){
+                case Property.TaskType.Holder:
+                    if(hitOne.collider.tag == "pixel"){
+                        IsPut = true;
+                    }
+                    break;
+                case Property.TaskType.HolderPin:
+                    if(hitOne.collider.tag == "pinPixel"){
+                        IsPut = true;
+                    }
+                    break;
+                case Property.TaskType.Cell:
+                    if(hitOne.collider.tag == "pixel"){
+                        IsPut = true;
+                    }
+                    break;
+                case Property.TaskType.Nickel:
+                    IsPut = false;
+                    break;
+                case Property.TaskType.Welding:
+                    IsPut = false;
+                    break;
+                default:
+                    IsPut = false;
+                    break;
+            }
+        }
 
         //오브젝트가 ray에 걸리는지 여부 판단해서 오브젝트 '삭제' 가능 여부 결정
         if(hitTwo.collider == null){
