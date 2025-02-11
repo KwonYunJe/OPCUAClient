@@ -8,8 +8,8 @@ using UnityEngine.EventSystems;
 public class InputManager : MonoBehaviour
 {
     public Vector3 mousePosition;
-    //public Vector3 mousePosition2;
 
+    public Property.TaskType taskType;
     public Vector3 center;
     public Vector3 boxSize;
     public bool CursorOnUI;
@@ -44,6 +44,8 @@ public class InputManager : MonoBehaviour
 
         ChangeTaskTyope();
         SetMaxDetectedCount();
+
+        taskType = GameManager.instance.property.taskType;
     }
 
     void UpdateAble(){
@@ -85,7 +87,7 @@ public class InputManager : MonoBehaviour
         }else if(GameManager.instance.property.taskType == Property.TaskType.HolderPin){
             layerMask = 1 << LayerMask.NameToLayer("pinPixel");
         }else if(GameManager.instance.property.taskType == Property.TaskType.Cell){
-            layerMask = 1 << LayerMask.NameToLayer("pixel");
+            layerMask = (1 << LayerMask.NameToLayer("holder")) + (1 << LayerMask.NameToLayer("cell"));
         }
     }
 
@@ -166,6 +168,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    //홀더를 놓을 때 최대로 탐지할 수 있는 픽셀의 개수 설정
     void SetMaxDetectedCount(){
         if(GameManager.instance.property.holderType == Property.HolderType.Holder2x1 || GameManager.instance.property.holderType == Property.HolderType.Holder1x2){
             MaxDetectedCount = 2;
@@ -181,18 +184,6 @@ public class InputManager : MonoBehaviour
 
     //대충 픽셀 오브젝트 이외의 오브젝트가 탐지되면 작업 오브젝트를 생성할 수 없게 함
     void IsInteractionObject(){
-        //오브젝트가 ray에 걸리는지(범위) 여부 판단해서 오브젝트 '생성' 가능 여부 결정
-        if(DetectedCount == MaxDetectedCount && hitOne.collider != null){
-            foreach(GameObject obj in DetectedObject){
-                if(obj.tag != "pixel"){
-                    IsPut = false;
-                    return;
-                }
-            }
-            IsPut = true;
-        }else {
-            IsPut = false;
-        }
 
         //오브젝트가 ray에 걸리는지(단일) 여부 판단해서 오브젝트 '생성' 가능 여부 결정
         if(hitOne.collider != null){
@@ -208,8 +199,10 @@ public class InputManager : MonoBehaviour
                     }
                     break;
                 case Property.TaskType.Cell:
-                    if(hitOne.collider.tag == "pixel"){
+                    if(hitOne.collider.tag == "Holder"){
                         IsPut = true;
+                    }else if(hitOne.collider.tag == "pixel"){
+                        IsPut = false;
                     }
                     break;
                 case Property.TaskType.Nickel:
@@ -221,6 +214,23 @@ public class InputManager : MonoBehaviour
                 default:
                     IsPut = false;
                     break;
+            }
+        }else{
+            IsPut = false;
+        }
+
+        //오브젝트가 ray에 걸리는지(범위) 여부 판단해서 오브젝트 '생성' 가능 여부 결정
+        if(GameManager.instance.property.taskType == Property.TaskType.Holder){
+            if(DetectedCount == MaxDetectedCount && hitOne.collider != null){
+                foreach(GameObject obj in DetectedObject){
+                    if(obj.tag != "pixel"){
+                        IsPut = false;
+                        return;
+                    }
+                }
+                IsPut = true;
+            }else {
+                IsPut = false;
             }
         }
 
@@ -238,7 +248,7 @@ public class InputManager : MonoBehaviour
 
     //클릭 감지
     void DetectClick(){
-        if(Input.GetMouseButtonDown(0) && IsPut ){
+        if(Input.GetMouseButtonDown(0) && IsPut){
             switch(GameManager.instance.property.taskType){
                 case Property.TaskType.Holder:
                     if(hitOne.collider.tag != "pixel"){ return; }
@@ -250,7 +260,7 @@ public class InputManager : MonoBehaviour
                     GameManager.instance.task.CreateTask(new float[]{hitOne.collider.transform.position.x, hitOne.collider.transform.position.y});
                     break;
                 case Property.TaskType.Cell:
-                    if(hitOne.collider.tag != "pixel"){ return; }
+                    if(hitOne.collider.tag != "Holder"){ return; }
                     Debug.Log("cell pos : " + hitOne.collider.transform);
                     GameManager.instance.task.CreateTask(new float[]{hitOne.collider.transform.position.x, hitOne.collider.transform.position.y});
                     break;
@@ -288,6 +298,6 @@ public class InputManager : MonoBehaviour
     void aa(){
         Debug.Log(hitOne.collider);
         Debug.Log(hitTwo.collider);
-        Invoke("aa", 1f);
+        //Invoke("aa", 1f);
     }
 }
