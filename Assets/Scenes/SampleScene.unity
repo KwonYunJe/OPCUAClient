@@ -42310,7 +42310,7 @@ MonoBehaviour:
   HolderPin:
   - {fileID: 2855552273950177423, guid: 33b29afb76161448a9b65a0f57e4ac14, type: 3}
   Cell:
-  - {fileID: 2418103777189184503, guid: fe927fdd236ff4cc291f997c31897cb0, type: 3}
+  - {fileID: 2418103777189184503, guid: 069eaacd8e67e4ab2a139a1cb9e97122, type: 3}
   - {fileID: 400031546568320916, guid: d284ed4d9dd1a485090c85295e92a86d, type: 3}
   - {fileID: 2418103777189184503, guid: 87825009036e0421f82e882634668470, type: 3}
   - {fileID: 400031546568320916, guid: 5c6f71f693aa3472c91fabddccdae627, type: 3}
@@ -44281,6 +44281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mousePosition: {x: 0, y: 0, z: 0}
+  taskType: 0
   center: {x: 0, y: 0, z: 0}
   boxSize: {x: 0, y: 0, z: 0}
   CursorOnUI: 0

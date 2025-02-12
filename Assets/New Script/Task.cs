@@ -6,55 +6,20 @@ using UnityEngine;
 
 public class Task
 {
-    //작업 시작
-    public void CreateTask(float[] _crdn){
-        Property.TaskType taskType = GameManager.instance.property.taskType;
-        //TaskID는 enum의 순서를 이용하여 정의
-        int taskID = 0 ;
-
-        switch(GameManager.instance.property.taskType){
-            case Property.TaskType.Holder:
-                taskID = (int)GameManager.instance.property.holderType;
-                TaskUnit addTaskUnit = new TaskUnit(Property.TaskType.Holder, taskID, _crdn[0], _crdn[1]);
-                GameManager.instance.taskDATA.taskListMap["Holder"].Add(addTaskUnit);
-                Debug.Log("Holder count : " + GameManager.instance.taskDATA.taskListMap["Holder"].Count);
-                break;
-            case Property.TaskType.HolderPin:
-                addTaskUnit = new TaskUnit(Property.TaskType.HolderPin, taskID, _crdn[0], _crdn[1]);
-                GameManager.instance.taskDATA.taskListMap["Pin"].Add(addTaskUnit);
-                Debug.Log("Pin count : " + GameManager.instance.taskDATA.taskListMap["Pin"].Count);
-                break;
-            case Property.TaskType.Cell:
-                addTaskUnit = new TaskUnit(Property.TaskType.Cell, taskID, _crdn[0], _crdn[1]);
-                GameManager.instance.taskDATA.taskListMap["Cell"].Add(addTaskUnit);
-                Debug.Log("Cell count : " + GameManager.instance.taskDATA.taskListMap["Cell"].Count);
-                break;
-            case Property.TaskType.Nickel:
-                addTaskUnit = new TaskUnit(Property.TaskType.Nickel, taskID, _crdn[0], _crdn[1]);
-                GameManager.instance.taskDATA.taskListMap["Nickel"].Add(addTaskUnit);
-                Debug.Log("Nickel count : " + GameManager.instance.taskDATA.taskListMap["Nickel"].Count);
-                break;
-            case Property.TaskType.Welding:
-                addTaskUnit = new TaskUnit(Property.TaskType.Welding, taskID, _crdn[0], _crdn[1]);
-                GameManager.instance.taskDATA.taskListMap["Welding"].Add(addTaskUnit);
-                Debug.Log("Welding count : " + GameManager.instance.taskDATA.taskListMap["Welding"].Count);
-                break;
-        }
-    }
-
-    public void EraseTask(GameObject _gameObject) {
-        // 태그에 맞는 리스트가 있는지 확인
-        if (GameManager.instance.taskDATA.taskListMap.TryGetValue(_gameObject.tag, out List<TaskUnit> taskList)) {
-            // 리스트에서 해당 오브젝트를 찾고 삭제
-            for (int i = 0; i < taskList.Count; i++) {
-                if (taskList[i].TaskObject == _gameObject) {
-                    // 오브젝트 삭제
-                    GameManager.instance.objectsManager.DestroyObject(_gameObject);
-                    break;
-                }
+    //픽셀정보를 통해서 홀더가 존재하는지 체크 
+    public void CheckPixel(GameObject _gameObject){
+        if(GameManager.instance.property.taskType == Property.TaskType.Pin){
+            if(!_gameObject.GetComponent<PinPixels>().Ready){
+                Debug.Log("The point is not ready");
+            }else{
+                new CreateTask(new float[]{_gameObject.transform.position.x, _gameObject.transform.position.y});
             }
-        } else {
-            Debug.LogWarning("Unknown tag: " + _gameObject.tag);
+        }else{
+            if(_gameObject.GetComponent<Pixels>().Holder == null){
+            Debug.Log("Holder is not placed");
+            }else{
+                new CreateTask(new float[]{_gameObject.transform.position.x, _gameObject.transform.position.y});
+            }
         }
     }
 }
@@ -86,5 +51,42 @@ public class TaskUnit
         TaskObject = GameManager.Instance.objectsManager.InstantiateObject(_taskType, _taskID, _x, _y);
     }
 }
+
+class CreateTask{
+    float[] crdn = new float[2];
+    public CreateTask(float[] crdn){
+        this.crdn = crdn;
+        Task();
+    }
+    //알아서 현재 작업중인 모드의 어떤 오브젝트를 놓는지 반환됨
+    int taskID = GameManager.instance.property.GetNowTaskTypeID();
+    //현재 작업중인 모드
+    Property.TaskType _taskType = GameManager.instance.property.taskType;
+    //Task를 만들고 TaskList에 추가
+    void Task(){
+        TaskUnit taskUnit = new TaskUnit(_taskType, taskID, crdn[0], crdn[1]);
+        GameManager.instance.taskDATA.taskListMap[_taskType.ToString()].Add(taskUnit);
+    }
+}
+
+class EraseTask{
+    public EraseTask(GameObject _gameObject){
+        // 태그에 맞는 리스트가 있는지 확인
+        if (GameManager.instance.taskDATA.taskListMap.TryGetValue(_gameObject.tag, out List<TaskUnit> taskList)) {
+            // 리스트에서 해당 오브젝트를 찾고 삭제
+            for (int i = 0; i < taskList.Count; i++) {
+                if (taskList[i].TaskObject == _gameObject) {
+                    // 오브젝트 삭제
+                    GameManager.instance.objectsManager.DestroyObject(_gameObject);
+                    break;
+                }
+            }
+        } else {
+            Debug.LogWarning("Unknown tag: " + _gameObject.tag);
+        }
+    }
+}
+
+
 
 

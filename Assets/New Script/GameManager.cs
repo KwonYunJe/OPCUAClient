@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -51,7 +53,7 @@ public class GameManager : MonoBehaviour
 //프로퍼티 클래스
 public class Property
 {
-    public enum TaskType{Holder, HolderPin, Cell, Nickel, Welding}
+    public enum TaskType{Holder, Pin, Cell, Nickel, Welding}
     public TaskType taskType;
     public enum PinType{Pin1}
     public PinType pinType;
@@ -81,7 +83,7 @@ public class Property
                     holderType = (HolderType)_taskID;
                 }
                 break;
-            case TaskType.HolderPin:
+            case TaskType.Pin:
 
                 break;
             case TaskType.Cell:
@@ -118,6 +120,24 @@ public class Property
     }
     public ObjectsManager GetObjectsManager(){
         return GameManager.instance.objectsManager;
+    }
+
+    //현재 작업 타입에 맞게 작업 타입 아이디를 반환
+    public int GetNowTaskTypeID(){
+        switch(taskType){
+            case TaskType.Holder:
+                return (int)holderType;
+            case TaskType.Pin:
+                return (int)pinType;
+            case TaskType.Cell:
+                return (int)cellType;
+            case TaskType.Nickel:
+                return (int)nickelType;
+            case TaskType.Welding:
+                return 0;
+            default:
+                return 0;
+        }
     }
 }
 

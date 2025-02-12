@@ -25,7 +25,8 @@ public class InputManager : MonoBehaviour
     public int DetectedCount;
     public GameObject[] DetectedObject;
     public GameObject HitOneObject;
-    
+    public Action ClickAction;
+
 
     // Start is called before the first frame update
     void Start()
@@ -84,10 +85,10 @@ public class InputManager : MonoBehaviour
     void ChangeTaskTyope(){
         if(GameManager.instance.property.taskType == Property.TaskType.Holder){
             layerMask = (1 << LayerMask.NameToLayer("pixel")) + (1 << LayerMask.NameToLayer("holder"));
-        }else if(GameManager.instance.property.taskType == Property.TaskType.HolderPin){
+        }else if(GameManager.instance.property.taskType == Property.TaskType.Pin){
             layerMask = 1 << LayerMask.NameToLayer("pinPixel");
         }else if(GameManager.instance.property.taskType == Property.TaskType.Cell){
-            layerMask = (1 << LayerMask.NameToLayer("holder")) + (1 << LayerMask.NameToLayer("cell"));
+            layerMask = (1 << LayerMask.NameToLayer("pixel")) + (1 << LayerMask.NameToLayer("cell"));
         }
     }
 
@@ -162,7 +163,7 @@ public class InputManager : MonoBehaviour
                 }
                 break;
             }
-        }else if(GameManager.instance.property.taskType == Property.TaskType.HolderPin){
+        }else if(GameManager.instance.property.taskType == Property.TaskType.Pin){
             center = Vector3.zero;
             boxSize = Vector3.zero;
         }
@@ -193,16 +194,14 @@ public class InputManager : MonoBehaviour
                         IsPut = true;
                     }
                     break;
-                case Property.TaskType.HolderPin:
+                case Property.TaskType.Pin:
                     if(hitOne.collider.tag == "pinPixel"){
                         IsPut = true;
                     }
                     break;
                 case Property.TaskType.Cell:
-                    if(hitOne.collider.tag == "Holder"){
+                    if(hitOne.collider.tag == "pixel"){
                         IsPut = true;
-                    }else if(hitOne.collider.tag == "pixel"){
-                        IsPut = false;
                     }
                     break;
                 case Property.TaskType.Nickel:
@@ -249,20 +248,24 @@ public class InputManager : MonoBehaviour
     //클릭 감지
     void DetectClick(){
         if(Input.GetMouseButtonDown(0) && IsPut){
+            //클릭 이벤트 발생
+            ClickAction();
             switch(GameManager.instance.property.taskType){
                 case Property.TaskType.Holder:
                     if(hitOne.collider.tag != "pixel"){ return; }
-                    GameManager.instance.task.CreateTask(new float[]{center.x, center.y});
+                    new CreateTask(new float[]{center.x, center.y});
                     break;
-                case Property.TaskType.HolderPin:
+                case Property.TaskType.Pin:
                     if(hitOne.collider.tag != "pinPixel"){ return; }
                     Debug.Log("Pin pos : " + hitOne.collider.transform);
-                    GameManager.instance.task.CreateTask(new float[]{hitOne.collider.transform.position.x, hitOne.collider.transform.position.y});
+                    GameManager.instance.task.CheckPixel(hitOne.collider.gameObject);
                     break;
                 case Property.TaskType.Cell:
-                    if(hitOne.collider.tag != "Holder"){ return; }
+                    if(hitOne.collider.tag != "pixel"){ return; }
                     Debug.Log("cell pos : " + hitOne.collider.transform);
-                    GameManager.instance.task.CreateTask(new float[]{hitOne.collider.transform.position.x, hitOne.collider.transform.position.y});
+                    //위 두 개는 홀더의 배치와 독립적인 배치 작업이므로 바로 작업 오브젝트를 생성하지만 
+                    //셀은 홀더의 유무에 따라 배치되어야 하므로 홀더 존재를 파악하는 함수를 거쳐야 함.
+                    GameManager.instance.task.CheckPixel(hitOne.collider.gameObject);
                     break;
                 case Property.TaskType.Nickel:
                     
@@ -272,7 +275,8 @@ public class InputManager : MonoBehaviour
                     break;
             }
         }else if(Input.GetMouseButtonDown(1) && IsErase){
-            GameManager.instance.task.EraseTask(hitTwo.collider.gameObject);
+            ClickAction();
+            new EraseTask(hitTwo.collider.gameObject);
         }
     }
 

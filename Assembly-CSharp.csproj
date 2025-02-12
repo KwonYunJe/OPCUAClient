@@ -64,7 +64,6 @@
     <Analyzer Include="/Applications/Unity/Hub/Editor/2022.3.16f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets/New Script/Observer.cs" />
     <Compile Include="Assets/Script/WeldingPixel.cs" />
     <Compile Include="Assets/Script/AllScript.cs" />
     <Compile Include="Assets/Script/UIController.cs" />
@@ -81,7 +80,6 @@
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/DropdownSample.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/VertexColorCycler.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/EnvMapAnimator.cs" />
-    <Compile Include="Assets/New Script/PropsObserver.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/TMP_TextSelector_A.cs" />
     <Compile Include="Assets/Script/PlayPreview.cs" />
     <Compile Include="Assets/Script/Pin.cs" />
@@ -124,6 +122,7 @@
     <Compile Include="Assets/New Script/ObjectsManager.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/ShaderPropAnimator.cs" />
     <Compile Include="Assets/Script/Holder.cs" />
+    <Compile Include="Assets/New Script/PinPixels.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/CameraController.cs" />
     <Compile Include="Assets/Script/SaveData.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/Benchmark03.cs" />

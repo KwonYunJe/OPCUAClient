@@ -178,8 +178,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7776491374777644788}
   - component: {fileID: 589694408648101370}
-  - component: {fileID: 4158734413137687407}
   - component: {fileID: 9029380323340548210}
+  - component: {fileID: 7523346999716086866}
   m_Layer: 8
   m_Name: PinPixel
   m_TagString: Pin
@@ -263,20 +263,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4158734413137687407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2855552273950177423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d7dc674a69db4b21b729c39bfa8a9a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isPicked: 0
-  RecordLine: {fileID: 0}
 --- !u!65 &9029380323340548210
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -298,6 +284,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 0.003}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7523346999716086866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2855552273950177423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43e0219b0d07342878bdaca02cc31ace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Ready: 0
 --- !u!1 &2862627298676930503
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,7 +27,7 @@ public class ObjectsManager: MonoBehaviour
                 _taskObject = Instantiate(Holder[_taskID], new Vector3(_x, _y, 0), Quaternion.identity);
                 _taskObject.transform.SetParent(Holders.transform);
                 break;
-            case Property.TaskType.HolderPin:
+            case Property.TaskType.Pin:
                 _taskObject = Instantiate(HolderPin[_taskID], new Vector3(_x, _y, 0), Quaternion.identity);
                 _taskObject.transform.SetParent(HolderPins.transform);
                 break;
