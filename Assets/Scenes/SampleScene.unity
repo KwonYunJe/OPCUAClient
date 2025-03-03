@@ -32125,6 +32125,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1dc051752b7b4289ad0ebdd09f3a5fd, type: 3}
+--- !u!1 &806123118
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 806123119}
+  m_Layer: 0
+  m_Name: Nickels
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &806123119
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806123118}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1018943912}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &806174383 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8184182727816344189, guid: 03c735edd3b694a258c4221c7ba0225b, type: 3}
@@ -42317,11 +42348,13 @@ MonoBehaviour:
   - {fileID: 2418103777189184503, guid: fe927fdd236ff4cc291f997c31897cb0, type: 3}
   - {fileID: 400031546568320916, guid: 8f4cfa3f34d5e4035b243fac11f16db3, type: 3}
   Nickel:
-  - {fileID: 184452032956207873, guid: e1dc051752b7b4289ad0ebdd09f3a5fd, type: 3}
+  - {fileID: 1908241148671522509, guid: 53834e95338f8ef408a7a506af923a9d, type: 3}
   Welding: []
   Holders: {fileID: 1202720511}
   HolderPins: {fileID: 1310458645}
   Cells: {fileID: 1400581122}
+  Nickels: {fileID: 806123118}
+  Weldings: {fileID: 1241506688}
 --- !u!4 &1018943912
 Transform:
   m_ObjectHideFlags: 0
@@ -42338,6 +42371,8 @@ Transform:
   - {fileID: 1202720512}
   - {fileID: 1310458646}
   - {fileID: 1400581123}
+  - {fileID: 806123119}
+  - {fileID: 1241506689}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1020302906 stripped
@@ -44291,8 +44326,10 @@ MonoBehaviour:
   layerMask: 0
   MaxDetectedCount: 0
   DetectedCount: 0
-  DetectedObject: []
+  DetectedObject: {fileID: 0}
+  DetectedObjects: []
   HitOneObject: {fileID: 0}
+  NowObject: {fileID: 0}
 --- !u!4 &1055549706
 Transform:
   m_ObjectHideFlags: 0
@@ -51136,6 +51173,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5613351768746152234, guid: d3e79bf558e4648a4ab7caed499028e5, type: 3}
   m_PrefabInstance: {fileID: 1648804127}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1241506688
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1241506689}
+  m_Layer: 0
+  m_Name: Weldings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1241506689
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241506688}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1018943912}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1243690585 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5785402747458006048, guid: e1dc051752b7b4289ad0ebdd09f3a5fd, type: 3}
@@ -54121,7 +54189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6312437540879476312, guid: 03c735edd3b694a258c4221c7ba0225b, type: 3}
       propertyPath: m_IncludeLayers.m_Bits
-      value: 0
+      value: 5248
       objectReference: {fileID: 0}
     - target: {fileID: 8184182727816344189, guid: 03c735edd3b694a258c4221c7ba0225b, type: 3}
       propertyPath: m_LocalPosition.x

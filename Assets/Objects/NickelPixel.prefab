@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5785402747458006048}
   - component: {fileID: 3879359408914515682}
-  - component: {fileID: 4596605262223525516}
+  - component: {fileID: 645708111050696578}
   m_Layer: 11
   m_Name: NickelPixel
-  m_TagString: NickelPixel
+  m_TagString: Nickel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,9 +56,9 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.05}
+  m_Size: {x: 0.9, y: 0.9, z: 0.05}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4596605262223525516
+--- !u!114 &645708111050696578
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -67,10 +67,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 184452032956207873}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 700104ca0eb454c58a7adbeb9bef60c6, type: 3}
+  m_Script: {fileID: 11500000, guid: bede4f5255d594e05a1fe3d3d1dca7a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Nickel: {fileID: 0}
+  colliders: []
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  ThisScale: {x: 0, y: 0, z: 0}
 --- !u!1 &3169904989543253313
 GameObject:
   m_ObjectHideFlags: 0

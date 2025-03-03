@@ -7,7 +7,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-
     public Property property;  
     public Task task;
     public TaskDATA taskDATA;
@@ -63,6 +62,7 @@ public class Property
     public CellType cellType;
     public enum NickelType{Nickel_1, Nickel_2, Nickel_3, Nickel_4}
     public NickelType nickelType;
+    public Action<TaskType> ChangeTask;    //모드 변경 이벤트
     
     //프로퍼티 초기화
     public void InitProperty(){
@@ -111,8 +111,9 @@ public class Property
     }
 
     public void ChangeTaskType(){
-        int taskNum = taskType.GetHashCode();
         taskType = (TaskType)(((int)taskType + 1) % System.Enum.GetValues(typeof(TaskType)).Length);
+        //작업 모드 변경 이벤트 발생
+        ChangeTask?.Invoke(taskType);
     }
 
     public Task GetTask(){

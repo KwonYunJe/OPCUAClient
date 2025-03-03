@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -19,14 +21,17 @@ public class InputManager : MonoBehaviour
     public int layerMask;
     public int MaxDetectedCount;
 
+    [SerializeField]
     public RaycastHit[] hit;
     public RaycastHit hitOne;
     public RaycastHit hitTwo;
     public int DetectedCount;
-    public GameObject[] DetectedObject;
+    public GameObject DetectedObject;
+    public GameObject[] DetectedObjects;
     public GameObject HitOneObject;
-    public Action ClickAction;
+    public GameObject NowObject;
 
+    public NickelSelect nickelSelect;
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +50,7 @@ public class InputManager : MonoBehaviour
 
         ChangeTaskTyope();
         SetMaxDetectedCount();
+        DetectMove();
 
         taskType = GameManager.instance.property.taskType;
     }
@@ -89,6 +95,11 @@ public class InputManager : MonoBehaviour
             layerMask = 1 << LayerMask.NameToLayer("pinPixel");
         }else if(GameManager.instance.property.taskType == Property.TaskType.Cell){
             layerMask = (1 << LayerMask.NameToLayer("pixel")) + (1 << LayerMask.NameToLayer("cell"));
+        }else if(GameManager.instance.property.taskType == Property.TaskType.Nickel){
+            layerMask = 1 << LayerMask.NameToLayer("pixel");
+            //layerMask = (1 << LayerMask.NameToLayer("pixel")) + (1 << LayerMask.NameToLayer("nickel"));
+        }else if(GameManager.instance.property.taskType == Property.TaskType.Welding){
+            layerMask = (1 << LayerMask.NameToLayer("pixel")) + (1 << LayerMask.NameToLayer("welding"));
         }
     }
 
@@ -110,16 +121,16 @@ public class InputManager : MonoBehaviour
         if(hit.Length > 0){
             //Debug.Log(hit.Length);
             DetectedCount = hit.Length;
-            DetectedObject = new GameObject[DetectedCount];
+            DetectedObjects = new GameObject[DetectedCount];
             for(int i = 0; i < DetectedCount; i++){
-                DetectedObject[i] = hit[i].collider.gameObject;
+                DetectedObjects[i] = hit[i].collider.gameObject;
             }
             // foreach(RaycastHit h in hit){
             //     Debug.Log(h.collider.name);
             // }
         }else{
             DetectedCount = 0;
-            DetectedObject = null;
+            DetectedObjects = null;
         }
 
         //Ray를 그려서 오브젝트를 판단, 셀 한 개에 오브젝트를 놓을 때 사용
@@ -143,27 +154,49 @@ public class InputManager : MonoBehaviour
     void SetMouseProperty(){
         if(GameManager.instance.property.taskType == Property.TaskType.Holder){
             switch(GameManager.instance.property.holderType){
-            case Property.HolderType.Holder2x1:
-            //2배열 짜리는 가운데가 달라서 아래와 같이 center를 설정해줘야 함
-                center = new Vector3((float)Math.Round(mousePosition.x + 0.5f) - 0.5f, (float)Math.Round(mousePosition.y), 0);
-                boxSize = new Vector3(1.9f , 0.9f , 0);
-                break;
-            case Property.HolderType.Holder1x2:
-                center = new Vector3((float)Math.Round(mousePosition.x), (float)Math.Round(mousePosition.y + 0.5f) - 0.5f, 0);
-                boxSize = new Vector3(0.9f , 1.9f , 0);
-                break;
-            default:
-                center = new Vector3((float)Math.Round(mousePosition.x), (float)Math.Round(mousePosition.y), 0);
-                if(GameManager.instance.property.holderType == Property.HolderType.Holder3x1){
+                case Property.HolderType.Holder2x1:
+                //2배열 짜리는 가운데가 달라서 아래와 같이 center를 설정해줘야 함
+                    center = new Vector3((float)Math.Round(mousePosition.x + 0.5f) - 0.5f, (float)Math.Round(mousePosition.y), 0);
+                    boxSize = new Vector3(1.9f , 0.9f , 0);
+                    break;
+                case Property.HolderType.Holder1x2:
+                    center = new Vector3((float)Math.Round(mousePosition.x), (float)Math.Round(mousePosition.y + 0.5f) - 0.5f, 0);
+                    boxSize = new Vector3(0.9f , 1.9f , 0);
+                    break;
+                case Property.HolderType.Holder3x1:
+                    center = new Vector3((float)Math.Round(mousePosition.x), (float)Math.Round(mousePosition.y), 0);
                     boxSize = new Vector3(2.9f , 0.9f , 0);
-                }else if(GameManager.instance.property.holderType == Property.HolderType.Holder1x3){
+                    break;
+                case Property.HolderType.Holder1x3:
+                    center = new Vector3((float)Math.Round(mousePosition.x), (float)Math.Round(mousePosition.y), 0);
                     boxSize = new Vector3(0.9f , 2.9f , 0);
-                }else if(GameManager.instance.property.holderType == Property.HolderType.Holder5x5){
+                    break;
+                case Property.HolderType.Holder5x5:
+                    center = new Vector3((float)Math.Round(mousePosition.x), (float)Math.Round(mousePosition.y), 0);
                     boxSize = new Vector3(4.9f , 4.9f , 0);
-                }
-                break;
+                    break;
             }
-        }else if(GameManager.instance.property.taskType == Property.TaskType.Pin){
+        }else if(GameManager.instance.property.taskType == Property.TaskType.Nickel){
+            switch(GameManager.instance.property.nickelType){
+                case Property.NickelType.Nickel_1:
+                    center = new Vector3(7.5f, (float)Math.Round(mousePosition.y), 0);
+                    boxSize = new Vector3(15.9f , 0.9f , 0);
+                    break;
+                case Property.NickelType.Nickel_2:
+                    center = new Vector3(7.5f, (float)Math.Round(mousePosition.y + 0.5f) - 0.5f, 0);
+                    boxSize = new Vector3(15.9f , 1.9f , 0);
+                    break;
+                case Property.NickelType.Nickel_3:
+                    center = new Vector3(7.5f, (float)Math.Round(mousePosition.y), 0);
+                    boxSize = new Vector3(15.9f , 2.9f , 0);
+                    break;
+                case Property.NickelType.Nickel_4:
+                    center = new Vector3(7.5f, (float)Math.Round(mousePosition.y + 0.5f) - 0.5f, 0);
+                    boxSize = new Vector3(15.9f , 3.9f , 0);
+                    break;
+            }
+            
+        }else{
             center = Vector3.zero;
             boxSize = Vector3.zero;
         }
@@ -171,21 +204,34 @@ public class InputManager : MonoBehaviour
 
     //홀더를 놓을 때 최대로 탐지할 수 있는 픽셀의 개수 설정
     void SetMaxDetectedCount(){
-        if(GameManager.instance.property.holderType == Property.HolderType.Holder2x1 || GameManager.instance.property.holderType == Property.HolderType.Holder1x2){
-            MaxDetectedCount = 2;
-        }else if(GameManager.instance.property.holderType == Property.HolderType.Holder3x1 || GameManager.instance.property.holderType == Property.HolderType.Holder1x3){
-            MaxDetectedCount = 3;
+        if(GameManager.instance.property.taskType == Property.TaskType.Holder){
+            if(GameManager.instance.property.holderType == Property.HolderType.Holder2x1 || GameManager.instance.property.holderType == Property.HolderType.Holder1x2){
+                MaxDetectedCount = 2;
+            }else if(GameManager.instance.property.holderType == Property.HolderType.Holder3x1 || GameManager.instance.property.holderType == Property.HolderType.Holder1x3){
+                MaxDetectedCount = 3;
 
-        }else if(GameManager.instance.property.holderType == Property.HolderType.Holder5x5){
-            MaxDetectedCount = 25;
-        }else{
-            MaxDetectedCount = 0;
+            }else if(GameManager.instance.property.holderType == Property.HolderType.Holder5x5){
+                MaxDetectedCount = 25;
+            }else{
+                MaxDetectedCount = 0;
+            }
+        }else if(GameManager.instance.property.taskType == Property.TaskType.Nickel){
+            if(GameManager.instance.property.nickelType == Property.NickelType.Nickel_1){
+                MaxDetectedCount = 16;
+            }else if(GameManager.instance.property.nickelType == Property.NickelType.Nickel_2){
+                MaxDetectedCount = 32;
+            }else if(GameManager.instance.property.nickelType == Property.NickelType.Nickel_3){
+                MaxDetectedCount = 48;
+            }else if(GameManager.instance.property.nickelType == Property.NickelType.Nickel_4){
+                MaxDetectedCount = 64;
+            }else{
+                MaxDetectedCount = 0;
+            }
         }
     }
 
     //대충 픽셀 오브젝트 이외의 오브젝트가 탐지되면 작업 오브젝트를 생성할 수 없게 함
     void IsInteractionObject(){
-
         //오브젝트가 ray에 걸리는지(단일) 여부 판단해서 오브젝트 '생성' 가능 여부 결정
         if(hitOne.collider != null){
             switch(GameManager.instance.property.taskType){
@@ -205,7 +251,9 @@ public class InputManager : MonoBehaviour
                     }
                     break;
                 case Property.TaskType.Nickel:
-                    IsPut = false;
+                    if(hitOne.collider.tag == "pixel"){
+                        IsPut = true;
+                    }
                     break;
                 case Property.TaskType.Welding:
                     IsPut = false;
@@ -221,7 +269,7 @@ public class InputManager : MonoBehaviour
         //오브젝트가 ray에 걸리는지(범위) 여부 판단해서 오브젝트 '생성' 가능 여부 결정
         if(GameManager.instance.property.taskType == Property.TaskType.Holder){
             if(DetectedCount == MaxDetectedCount && hitOne.collider != null){
-                foreach(GameObject obj in DetectedObject){
+                foreach(GameObject obj in DetectedObjects){
                     if(obj.tag != "pixel"){
                         IsPut = false;
                         return;
@@ -231,6 +279,19 @@ public class InputManager : MonoBehaviour
             }else {
                 IsPut = false;
             }
+        }else if(GameManager.instance.property.taskType == Property.TaskType.Nickel){
+            if(hitOne.collider != null){
+                foreach(GameObject obj in DetectedObjects){
+                    if(obj.tag != "pixel"){
+                        IsPut = false;
+                        return;
+                    }
+                }
+                IsPut = true;
+            }else {
+                IsPut = false;
+            }
+
         }
 
         //오브젝트가 ray에 걸리는지 여부 판단해서 오브젝트 '삭제' 가능 여부 결정
@@ -249,11 +310,10 @@ public class InputManager : MonoBehaviour
     void DetectClick(){
         if(Input.GetMouseButtonDown(0) && IsPut){
             //클릭 이벤트 발생
-            ClickAction();
             switch(GameManager.instance.property.taskType){
                 case Property.TaskType.Holder:
                     if(hitOne.collider.tag != "pixel"){ return; }
-                    new CreateTask(new float[]{center.x, center.y});
+                    GameManager.instance.task.CreateTask(new float[]{center.x, center.y});
                     break;
                 case Property.TaskType.Pin:
                     if(hitOne.collider.tag != "pinPixel"){ return; }
@@ -268,15 +328,28 @@ public class InputManager : MonoBehaviour
                     GameManager.instance.task.CheckPixel(hitOne.collider.gameObject);
                     break;
                 case Property.TaskType.Nickel:
-                    
+                    if(hitOne.collider.tag != "pixel"){ return; }
+                    Debug.Log(nickelSelect.OnMouseLine.Length);
+                    GameManager.instance.task.CheckPixel(nickelSelect.OnMouseLine);
                     break;
                 case Property.TaskType.Welding:
                     
                     break;
             }
         }else if(Input.GetMouseButtonDown(1) && IsErase){
-            ClickAction();
             new EraseTask(hitTwo.collider.gameObject);
+        }
+    }
+
+    void DetectMove(){
+        if(GameManager.instance.property.taskType == Property.TaskType.Nickel){
+            if(NowObject == null || HitOneObject != NowObject){
+                HitOneObject = NowObject;
+                // if(nickelSelect != null){
+                //     nickelSelect.ClearLine();
+                // }
+                nickelSelect = new NickelSelect(hit);
+            }
         }
     }
 
@@ -304,4 +377,46 @@ public class InputManager : MonoBehaviour
         Debug.Log(hitTwo.collider);
         //Invoke("aa", 1f);
     }
+}
+
+public class NickelSelect{
+    public GameObject[] OnMouseLine;
+    public NickelSelect(RaycastHit[] _OnMousePixel){
+        Debug.Log("NickelSelect" + "Count : " + _OnMousePixel.Length);
+        List<GameObject> pixelList = new List<GameObject>();
+        foreach(RaycastHit _hit in _OnMousePixel){
+            if(_hit.collider.gameObject.GetComponent<Pixels>().IsHolder()){
+                pixelList.Add(_hit.collider.gameObject);
+            }
+        }
+        OnMouseLine = pixelList.ToArray();
+        //TintLine();
+    }
+
+    // private void DetectLine(GameObject _OnMousePixel){
+    //     int[] pixelPos = new int[2];
+    //     pixelPos[0] = (int)_OnMousePixel.transform.position.x;
+    //     pixelPos[1] = (int)_OnMousePixel.transform.position.y;
+
+    //     GameObject line = GameManager.instance.objectsManager.Panel.transform.GetChild(pixelPos[1]).gameObject;
+
+    //     List<GameObject> pixelList = new List<GameObject>();
+    //     for(int i = 0 ; i< line.transform.childCount ; i++){
+    //         if(line.transform.GetChild(i).GetComponent<Pixels>().IsHolder())
+    //         pixelList.Add(line.transform.GetChild(i).gameObject);
+    //     }
+
+    //     OnMouseLine = pixelList.ToArray();
+    // }
+
+    // private void TintLine(){
+    //     foreach(GameObject obj in OnMouseLine){
+    //         obj.GetComponent<Pixels>().SetTintSelected(true);
+    //     }
+    // }
+    // public void ClearLine(){
+    //     foreach(GameObject obj in OnMouseLine){
+    //         obj.GetComponent<Pixels>().SetTintSelected(false);
+    //     }
+    // }
 }

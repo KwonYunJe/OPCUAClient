@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,8 +13,7 @@ public class PinPixels : MonoBehaviour
     void Start()
     {
         layerMask = 1 << LayerMask.NameToLayer("holder");
-        InputManager inputManager = GameManager.Instance.inputManager;
-        inputManager.ClickAction += ScanObj;
+        GameManager.instance.property.ChangeTask += DelayScan;
     }
 
     // Update is called once per frame
@@ -22,19 +22,28 @@ public class PinPixels : MonoBehaviour
         
     }
 
+    public void DelayScan(Property.TaskType _taskType){
+        if(_taskType == Property.TaskType.Pin){
+            Debug.Log("핀 픽셀 감지 함수 실행");
+            Invoke("ScanObj", 0.001f);
+        }
+    }
+
     void ScanObj(){
-        if(GameManager.instance.property.taskType != Property.TaskType.Pin){return;}
-        Debug.Log("핀 감지 함수 실행");
+        //if(GameManager.instance.property.taskType != Property.TaskType.Pin){return;}
+        //Debug.Log("핀 감지 함수 실행");
         Ready = false;
+        InitAAA();
         colliders1[0] = Physics.OverlapBox(new Vector3(transform.position.x -0.1f,transform.position.y -0.1f, 0), new Vector3(0.05f, 0.05f, 0.1f), transform.rotation, layerMask);
         colliders1[1] = Physics.OverlapBox(new Vector3(transform.position.x -0.1f,transform.position.y + 0.1f, 0), new Vector3(0.05f, 0.05f, 0.1f), transform.rotation, layerMask);
         colliders1[2] = Physics.OverlapBox(new Vector3(transform.position.x + 0.1f,transform.position.y - 0.1f, 0), new Vector3(0.05f, 0.05f, 0.1f), transform.rotation, layerMask);
         colliders1[3] = Physics.OverlapBox(new Vector3(transform.position.x + 0.1f,transform.position.y + 0.1f, 0), new Vector3(0.05f, 0.05f, 0.1f), transform.rotation, layerMask);
-        Debug.Log(colliders1[0].Length + ", " + colliders1[1].Length + ", " + colliders1[2].Length + ", " + colliders1[3].Length);
+        //Debug.Log(colliders1[0].Length + ", " + colliders1[1].Length + ", " + colliders1[2].Length + ", " + colliders1[3].Length);
         SetReady();
     }
 
     void SetReady(){
+        
         Ready = false;
         for(int i = 0 ; i < 4 ; i++){
             if(colliders1[i].Length != 1 || !colliders1[i][0].gameObject.CompareTag("Holder")){
@@ -43,6 +52,10 @@ public class PinPixels : MonoBehaviour
                 Ready = true;
             }
         }
+    }
+
+    public void InitAAA(){
+        Array.Clear(colliders1, 0, colliders1.Length);
     }
 
     private void OnDrawGizmos() {

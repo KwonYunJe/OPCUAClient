@@ -7,8 +7,10 @@ TagManager:
   - pixel
   - Pin
   - pinPixel
-  - Undefined
   - Holder
+  - Cell
+  - Nickel
+  - NickelPoint
   layers:
   - Default
   - TransparentFX

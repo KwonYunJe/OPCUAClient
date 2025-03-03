@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3284433784668176589}
-  - component: {fileID: 7351663631921372898}
+  - component: {fileID: 8329168501438976706}
   - component: {fileID: 388957971636528752}
   - component: {fileID: -5660107657807994884}
   m_Layer: 7
@@ -41,7 +41,7 @@ Transform:
   - {fileID: 1928974921505296421}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7351663631921372898
+--- !u!114 &8329168501438976706
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -50,15 +50,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 390956758386853057}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86d15b2c7f08b49e7a02b4ca5e956f07, type: 3}
+  m_Script: {fileID: 11500000, guid: de801e9b358554687a8871172a2591b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  num: 0
-  HolderType: 2
-  HavePixel: []
-  RecordLine: {fileID: 0}
-  MinCrd: 
-  MaxCrd: 
+  colliders: []
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  ThisScale: {x: 0, y: 0, z: 0}
 --- !u!212 &388957971636528752
 SpriteRenderer:
   m_ObjectHideFlags: 0
