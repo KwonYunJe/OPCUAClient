@@ -59,11 +59,21 @@ public class Pixels : MonoBehaviour
         selectedtint.SetActive(_bool);
     }
 
-    public bool IsHolder(){
-        if(Array.Exists(colliders, x => x.tag == "Holder")){
-            return true;
-        }else{
+    public bool IsHolder() {
+        if (colliders == null || colliders.Length == 0) {
+            Debug.LogError("colliders 배열이 null이거나 비어 있습니다.");
             return false;
         }
+
+        foreach (var col in colliders) {
+            if (col == null) {
+                //Debug.LogWarning("colliders 배열에 null 값이 포함되어 있습니다.");
+            } else {
+                Debug.Log($"Collider: {col.name}, Tag: {col.tag}");
+            }
+        }
+
+        return Array.Exists(colliders, x => x != null && x.tag == "Holder");
     }
+
 }

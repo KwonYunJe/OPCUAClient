@@ -32,6 +32,7 @@ public class Task
         }
     }
 
+    //한개의 오브젝트가 들어왔을 때
     public void CreateTask(float[] crdn){
         //알아서 현재 작업중인 모드의 어떤 오브젝트를 놓는지 반환됨
         int taskID = GameManager.instance.property.GetNowTaskTypeID();
@@ -41,6 +42,8 @@ public class Task
         TaskUnit taskUnit = new TaskUnit(_taskType, taskID, crdn[0], crdn[1]);
         GameManager.instance.taskDATA.taskListMap[_taskType.ToString()].Add(taskUnit);
     }
+
+    //여러개의 오브젝트가 들어왔을 때(니켈)
     public void CreateTask(GameObject[] gameObjects){
         //감지된 오브젝트를 x, y축 기준 오름차순 정렬
         Array.Sort(gameObjects, (a, b) => {
@@ -145,12 +148,19 @@ public class TaskUnitNickel : TaskUnit
 
 class EraseTask{
     public EraseTask(GameObject _gameObject){
-        if(_gameObject.tag == "Nickel"){
-            
-        }
+        String searchTag = "";
+        if(_gameObject.tag == "NickelPoint"){
+            searchTag = "Nickel";
+            _gameObject = _gameObject.transform.parent.gameObject;
+        }else{
+            searchTag = _gameObject.tag;
+        } 
+
+        Debug.Log("Search Tag : " + searchTag);
         // 태그에 맞는 리스트가 있는지 확인
-        else if (GameManager.instance.taskDATA.taskListMap.TryGetValue(_gameObject.tag, out List<TaskUnit> taskList)) {
-            // // 해당 오브젝트의 콜라이더를 저장(픽셀 콜라이더)
+        if (GameManager.instance.taskDATA.taskListMap.TryGetValue(searchTag, out List<TaskUnit> taskList)) {
+            Debug.Log("TaskList Found : " + searchTag);
+            // 해당 오브젝트의 콜라이더를 저장(픽셀 콜라이더)
             // 리스트에서 해당 오브젝트를 찾고 삭제
             for (int i = 0; i < taskList.Count; i++) {
                 if (taskList[i].TaskObject == _gameObject) {

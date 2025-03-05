@@ -52,6 +52,7 @@ public class ObjectsManager: MonoBehaviour
     public GameObject InstantiateObject(GameObject[] _objects){
         GameObject obj = new GameObject("Nickel");
         obj.tag = "Nickel";
+        obj.AddComponent<Nickel_Script>();
 
         foreach(GameObject _object in _objects){
             GameObject CreateNickel = Instantiate(Nickel[0], new Vector3(_object.transform.position.x, _object.transform.position.y, 0), Quaternion.identity);
@@ -62,7 +63,14 @@ public class ObjectsManager: MonoBehaviour
     }
 
     public void DestroyObject(GameObject _gameObject){
-        Collider[] _colliders =_gameObject.GetComponent<Object_Script>().StartDestory();
+        Debug.Log("오브젝트가 파괴 : " + _gameObject.name);
+        Collider[] _colliders;
+        // if(_gameObject.tag == "Nickel"){
+        //     _colliders =_gameObject.GetComponent<Nickel_Script>().StartDestory();
+        // }else{
+        //     _colliders =_gameObject.GetComponent<Object_Script>().StartDestory();
+        // }
+        _colliders =_gameObject.GetComponent<Object_Script>().StartDestory();
         StartCoroutine(DelayDestroy(_colliders));
     }
 

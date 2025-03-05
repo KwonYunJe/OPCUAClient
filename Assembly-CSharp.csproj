@@ -124,6 +124,7 @@
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/WarpTextExample.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/TextMeshProFloatingText.cs" />
     <Compile Include="Assets/New Script/ObjectsManager.cs" />
+    <Compile Include="Assets/New Script/Welding_Script.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/ShaderPropAnimator.cs" />
     <Compile Include="Assets/Script/Holder.cs" />
     <Compile Include="Assets/New Script/PinPixels.cs" />

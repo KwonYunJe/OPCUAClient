@@ -36,7 +36,7 @@ public class InputManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        aa();
+
     }
 
     // Update is called once per frame
@@ -53,6 +53,7 @@ public class InputManager : MonoBehaviour
         DetectMove();
 
         taskType = GameManager.instance.property.taskType;
+        
     }
 
     void UpdateAble(){
@@ -96,8 +97,8 @@ public class InputManager : MonoBehaviour
         }else if(GameManager.instance.property.taskType == Property.TaskType.Cell){
             layerMask = (1 << LayerMask.NameToLayer("pixel")) + (1 << LayerMask.NameToLayer("cell"));
         }else if(GameManager.instance.property.taskType == Property.TaskType.Nickel){
-            layerMask = 1 << LayerMask.NameToLayer("pixel");
-            //layerMask = (1 << LayerMask.NameToLayer("pixel")) + (1 << LayerMask.NameToLayer("nickel"));
+            //layerMask = 1 << LayerMask.NameToLayer("pixel");
+            layerMask = (1 << LayerMask.NameToLayer("pixel")) + (1 << LayerMask.NameToLayer("nickel"));
         }else if(GameManager.instance.property.taskType == Property.TaskType.Welding){
             layerMask = (1 << LayerMask.NameToLayer("pixel")) + (1 << LayerMask.NameToLayer("welding"));
         }
@@ -298,7 +299,7 @@ public class InputManager : MonoBehaviour
         if(hitTwo.collider == null){
             IsErase = false;
         }else{
-            if(hitTwo.collider.tag == "Holder" || hitTwo.collider.tag == "Pin" || hitTwo.collider.tag == "Cell" || hitTwo.collider.tag == "Nickel" || hitTwo.collider.tag == "Welding"){
+            if(hitTwo.collider.tag == "Holder" || hitTwo.collider.tag == "Pin" || hitTwo.collider.tag == "Cell" || hitTwo.collider.tag == "NickelPoint" || hitTwo.collider.tag == "Welding"){
                 IsErase = true;
             }else{
                 IsErase = false;
@@ -317,19 +318,19 @@ public class InputManager : MonoBehaviour
                     break;
                 case Property.TaskType.Pin:
                     if(hitOne.collider.tag != "pinPixel"){ return; }
-                    Debug.Log("Pin pos : " + hitOne.collider.transform);
+                    //Debug.Log("Pin pos : " + hitOne.collider.transform);
                     GameManager.instance.task.CheckPixel(hitOne.collider.gameObject);
                     break;
                 case Property.TaskType.Cell:
                     if(hitOne.collider.tag != "pixel"){ return; }
-                    Debug.Log("cell pos : " + hitOne.collider.transform);
+                    //Debug.Log("cell pos : " + hitOne.collider.transform);
                     //위 두 개는 홀더의 배치와 독립적인 배치 작업이므로 바로 작업 오브젝트를 생성하지만 
                     //셀은 홀더의 유무에 따라 배치되어야 하므로 홀더 존재를 파악하는 함수를 거쳐야 함.
                     GameManager.instance.task.CheckPixel(hitOne.collider.gameObject);
                     break;
                 case Property.TaskType.Nickel:
                     if(hitOne.collider.tag != "pixel"){ return; }
-                    Debug.Log(nickelSelect.OnMouseLine.Length);
+                    //Debug.Log(nickelSelect.OnMouseLine.Length);
                     GameManager.instance.task.CheckPixel(nickelSelect.OnMouseLine);
                     break;
                 case Property.TaskType.Welding:
@@ -372,51 +373,54 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    void aa(){
-        Debug.Log(hitOne.collider);
-        Debug.Log(hitTwo.collider);
-        //Invoke("aa", 1f);
+    void SelectWeldingPoint(){
+        if(Input.GetMouseButtonDown(0)){
+            if(hitOne.collider.tag == "pixel"){
+
+            }
+        }
     }
 }
 
 public class NickelSelect{
     public GameObject[] OnMouseLine;
     public NickelSelect(RaycastHit[] _OnMousePixel){
-        Debug.Log("NickelSelect" + "Count : " + _OnMousePixel.Length);
+        //Debug.Log("NickelSelect" + "Count : " + _OnMousePixel.Length);
         List<GameObject> pixelList = new List<GameObject>();
         foreach(RaycastHit _hit in _OnMousePixel){
-            if(_hit.collider.gameObject.GetComponent<Pixels>().IsHolder()){
-                pixelList.Add(_hit.collider.gameObject);
+            if(_hit.collider.tag != "pixel"){
+                return;
+            }else if(pixelList != null){
+                if(_hit.collider.gameObject.GetComponent<Pixels>().IsHolder()){
+                    pixelList.Add(_hit.collider.gameObject);
+                }
             }
+            
         }
         OnMouseLine = pixelList.ToArray();
         //TintLine();
     }
 
-    // private void DetectLine(GameObject _OnMousePixel){
-    //     int[] pixelPos = new int[2];
-    //     pixelPos[0] = (int)_OnMousePixel.transform.position.x;
-    //     pixelPos[1] = (int)_OnMousePixel.transform.position.y;
+}
 
-    //     GameObject line = GameManager.instance.objectsManager.Panel.transform.GetChild(pixelPos[1]).gameObject;
+public class WeldingSelect{
+    public List<GameObject> SelectedOjbects = new List<GameObject>();
 
-    //     List<GameObject> pixelList = new List<GameObject>();
-    //     for(int i = 0 ; i< line.transform.childCount ; i++){
-    //         if(line.transform.GetChild(i).GetComponent<Pixels>().IsHolder())
-    //         pixelList.Add(line.transform.GetChild(i).gameObject);
-    //     }
+    public void AddWeldingPoint(GameObject _pixel){
+        if(SelectedOjbects == null || !SelectedOjbects.Contains(_pixel)){
+            SelectedOjbects.Add(_pixel);
+        }
+    }
 
-    //     OnMouseLine = pixelList.ToArray();
-    // }
-
-    // private void TintLine(){
-    //     foreach(GameObject obj in OnMouseLine){
-    //         obj.GetComponent<Pixels>().SetTintSelected(true);
-    //     }
-    // }
-    // public void ClearLine(){
-    //     foreach(GameObject obj in OnMouseLine){
-    //         obj.GetComponent<Pixels>().SetTintSelected(false);
-    //     }
-    // }
+    public void SetWeldingPoint(){
+        if(SelectedOjbects.Count == 0){
+            Debug.Log("리스트 비었음");
+            return;
+        }else{
+            foreach(GameObject _pixel in SelectedOjbects){
+                
+            }
+            SelectedOjbects.Clear();
+        }
+    }
 }
