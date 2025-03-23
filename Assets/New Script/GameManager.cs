@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public TaskDATA taskDATA;
     public ObjectsManager objectsManager;
     public InputManager inputManager;
+    public UIManager uiManager;
 
     private void Awake() {
         InstantiateGM();

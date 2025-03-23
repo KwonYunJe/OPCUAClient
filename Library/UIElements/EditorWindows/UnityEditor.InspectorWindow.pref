@@ -89,6 +89,7 @@ MonoBehaviour:
   - __PanelContainer__rootVisualContainer__inspector-window-main-scroll-view__unity-list-colliders__UnityEngine.UIElements.ListView
   - __PanelContainer__rootVisualContainer__inspector-window-main-scroll-view__unity-list-DetectedObjects__UnityEngine.UIElements.ListView
   - __PanelContainer__rootVisualContainer__inspector-window-main-scroll-view__unity-list-Arm__UnityEngine.UIElements.ListView
+  - __PanelContainer__rootVisualContainer__inspector-window-main-scroll-view__unity-list-RecordContent__UnityEngine.UIElements.ListView
   m_Values:
   - '{}'
   - '{}'
@@ -163,6 +164,7 @@ MonoBehaviour:
   - '{}'
   - '{}'
   - '{}'
-  - '{"m_ShowAlternatingRowBackgrounds":0,"serializedVirtualizationData":{"scrollOffset":{"x":0.0,"y":0.0},"firstVisibleIndex":0,"contentPadding":0.0,"contentHeight":0.0,"anchoredItemIndex":-1,"anchorOffset":0.0}}'
-  - '{"m_ShowAlternatingRowBackgrounds":0,"serializedVirtualizationData":{"scrollOffset":{"x":0.0,"y":0.0},"firstVisibleIndex":0,"contentPadding":0.0,"contentHeight":0.0,"anchoredItemIndex":-1,"anchorOffset":0.0}}'
   - '{}'
+  - '{}'
+  - '{}'
+  - '{"m_ShowAlternatingRowBackgrounds":0,"serializedVirtualizationData":{"scrollOffset":{"x":0.0,"y":0.0},"firstVisibleIndex":0,"contentPadding":0.0,"contentHeight":110.0,"anchoredItemIndex":0,"anchorOffset":0.0}}'

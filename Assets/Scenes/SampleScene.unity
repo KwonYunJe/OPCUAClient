@@ -1934,8 +1934,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1746376140}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: OnClickMoveable
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: OnClickCameraMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4822,7 +4822,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickPlus40T
         m_Mode: 1
@@ -15025,7 +15025,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickPlus50E
         m_Mode: 1
@@ -19465,7 +19465,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickNickelTwo
         m_Mode: 1
@@ -19829,7 +19829,7 @@ RectTransform:
   m_Father: {fileID: 97084008}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -20327,7 +20327,7 @@ MonoBehaviour:
   m_OnDidEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnInputField
         m_Mode: 3
@@ -23351,7 +23351,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickPaly
         m_Mode: 1
@@ -26861,6 +26861,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectsManager: {fileID: 1018943911}
   inputManager: {fileID: 1055549705}
+  uiManager: {fileID: 1746376140}
 --- !u!4 &670581720
 Transform:
   m_ObjectHideFlags: 0
@@ -28111,7 +28112,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickThree
         m_Mode: 1
@@ -28640,7 +28641,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.040000003, y: 0.2165934}
   m_AnchorMax: {x: 0.96000004, y: 0.652}
-  m_AnchoredPosition: {x: 0.0082092285, y: -0.1000061}
+  m_AnchoredPosition: {x: 0.0082092285, y: -0.099975586}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &713639161
@@ -30828,7 +30829,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickNickelOne
         m_Mode: 1
@@ -32244,7 +32245,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickMinus50E
         m_Mode: 1
@@ -36373,7 +36374,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickMinus40T
         m_Mode: 1
@@ -37408,7 +37409,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickAutoSet
         m_Mode: 1
@@ -39983,7 +39984,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.87, y: 5.38, z: -11.3}
+  m_LocalPosition: {x: 1, y: 5, z: -16.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -39996,20 +39997,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f30e48413a9147aaaadeef73adf50b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 99bd2e29df72949d783849904d5aa548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 963194225}
-  _moveRate: 25
-  allScript: {fileID: 0}
-  zoomSpeed: 5
-  minDistance: -10
-  maxDistance: 50
+  _moveRate: 20
+  m_ViewportRect: {fileID: 0}
+  zoomSpeed: 0.1
+  minDistance: -4
+  maxDistance: -17
   CursorOnUI: 0
-  xValue: 10
-  yValue: 10
+  xValue: 10.5
+  yValue: 11.5
 --- !u!1001 &963506204
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41483,7 +41484,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickThreeVertical
         m_Mode: 1
@@ -42349,7 +42350,8 @@ MonoBehaviour:
   - {fileID: 400031546568320916, guid: 8f4cfa3f34d5e4035b243fac11f16db3, type: 3}
   Nickel:
   - {fileID: 1908241148671522509, guid: 53834e95338f8ef408a7a506af923a9d, type: 3}
-  Welding: []
+  Welding:
+  - {fileID: 6669767054000360193, guid: 14748bd8b75234411b432f1f28a70390, type: 3}
   Holders: {fileID: 1202720511}
   HolderPins: {fileID: 1310458645}
   Cells: {fileID: 1400581122}
@@ -44564,7 +44566,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickFive
         m_Mode: 1
@@ -45223,7 +45225,7 @@ MonoBehaviour:
   m_OnDidEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnInputField
         m_Mode: 3
@@ -49643,7 +49645,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickNickelFour
         m_Mode: 1
@@ -51900,7 +51902,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickPlusM50
         m_Mode: 1
@@ -58211,7 +58213,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1446069006
@@ -62310,7 +62312,7 @@ MonoBehaviour:
   m_OnDidEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnInputField
         m_Mode: 3
@@ -64562,7 +64564,7 @@ MonoBehaviour:
   m_OnDidEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnInputField
         m_Mode: 3
@@ -69369,17 +69371,17 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1746376139}
+  - component: {fileID: 1746376140}
   - component: {fileID: 1746376138}
   - component: {fileID: 1746376137}
   - component: {fileID: 1746376136}
-  - component: {fileID: 1746376140}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1746376136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69474,73 +69476,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1746376135}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcd495963b2124a97a2a57704aa3ba0e, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e982cf2b8a0e494990e6aec72baa953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allScript: {fileID: 0}
-  saveData: {fileID: 0}
-  panel_Holder: {fileID: 0}
-  panel_Pin: {fileID: 0}
-  panel_Cell: {fileID: 0}
-  panel_Nickel: {fileID: 0}
-  Panel_Welding: {fileID: 0}
-  HolderCountText:
-  - {fileID: 2097540749}
-  - {fileID: 671159210}
-  - {fileID: 1361832067}
-  - {fileID: 2142599994}
-  - {fileID: 125873431}
-  PinCountText: {fileID: 1211608834}
-  CellCountText:
-  - {fileID: 1959796881}
-  - {fileID: 193263072}
-  - {fileID: 636124680}
-  - {fileID: 1523175110}
-  - {fileID: 153001026}
-  - {fileID: 753824273}
-  NickelCountText:
-  - {fileID: 2032477373}
-  - {fileID: 1144748941}
-  - {fileID: 1943404920}
-  - {fileID: 1935071044}
-  WeldingProcessText:
-  - {fileID: 791126008}
-  - {fileID: 1589654324}
-  - {fileID: 817979493}
-  - {fileID: 721539732}
-  RecordLine: {fileID: 3241566002152489182, guid: 23f0b4e1f6eb84b06b983e8680da5605, type: 3}
-  ScrollView:
-  - {fileID: 238272972}
-  - {fileID: 1018028428}
-  - {fileID: 1685889037}
-  - {fileID: 1886278595}
-  - {fileID: 1143825260}
-  MaterialsInfo:
-  - {fileID: 327758920}
-  - {fileID: 950991350}
-  - {fileID: 892507601}
-  - {fileID: 991462809}
-  - {fileID: 1860038971}
-  Content: {fileID: 1446069004}
-  Material: {fileID: 0}
-  HolderPickButton: {fileID: 795845149}
-  PinAutoSetButton: {fileID: 998179441}
-  CellPickButton: {fileID: 1024899408}
-  NickelPickButton: {fileID: 610478142}
-  WeldingStatus: {fileID: 1821117384}
-  WeldingStatusInput:
-  - {fileID: 1624101270}
-  - {fileID: 1080956801}
-  - {fileID: 1560599002}
-  - {fileID: 529096151}
-  dropdown: {fileID: 1838213333}
-  warnningMsg: {fileID: 961081331}
-  MoveableBtn: {fileID: 49112534}
-  WeldingValue:
-  - 0
-  - 0
-  - 0
-  - 0
+  Moveable: 0
+  RecordObj: {fileID: 3241566002152489182, guid: 23f0b4e1f6eb84b06b983e8680da5605, type: 3}
+  RecordContent:
+  - {fileID: 1446069004}
+  - {fileID: 478242914}
+  - {fileID: 200684515}
+  - {fileID: 586393295}
+  - {fileID: 1779511680}
 --- !u!1001 &1746475342
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73588,7 +73534,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1838213334}
   m_Template: {fileID: 1948901490}
   m_CaptionText: {fileID: 1049454344}
@@ -73611,7 +73557,19 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1746376140}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: OnClickDropDown
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &1838213334
 MonoBehaviour:
@@ -74139,7 +74097,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickMinusM50
         m_Mode: 1
@@ -78498,7 +78456,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickTwo
         m_Mode: 1
@@ -82028,7 +81986,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickTwoVertical
         m_Mode: 1
@@ -82690,7 +82648,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746376140}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickNickelThree
         m_Mode: 1

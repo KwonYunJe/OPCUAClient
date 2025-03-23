@@ -309,7 +309,7 @@ public class InputManager : MonoBehaviour
 
     //클릭 감지
     void DetectClick(){
-        if(Input.GetMouseButtonDown(0) && IsPut){
+        if(Input.GetMouseButtonUp(0) && IsPut){
             //클릭 이벤트 발생
             switch(GameManager.instance.property.taskType){
                 case Property.TaskType.Holder:
@@ -337,7 +337,7 @@ public class InputManager : MonoBehaviour
                     
                     break;
             }
-        }else if(Input.GetMouseButtonDown(1) && IsErase){
+        }else if(Input.GetMouseButtonUp(1) && IsErase){
             new EraseTask(hitTwo.collider.gameObject);
         }
     }
@@ -374,7 +374,7 @@ public class InputManager : MonoBehaviour
     }
 
     void SelectWeldingPoint(){
-        if(Input.GetMouseButtonDown(0)){
+        if(Input.GetMouseButtonUp(0)){
             if(hitOne.collider.tag == "pixel"){
 
             }

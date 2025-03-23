@@ -36,10 +36,14 @@ public class Task
     public void CreateTask(float[] crdn){
         //알아서 현재 작업중인 모드의 어떤 오브젝트를 놓는지 반환됨
         int taskID = GameManager.instance.property.GetNowTaskTypeID();
+
         //현재 작업중인 모드
         Property.TaskType _taskType = GameManager.instance.property.taskType;
-        //Task를 만들고 TaskList에 추가
+
+        //TaskUnit 생성
         TaskUnit taskUnit = new TaskUnit(_taskType, taskID, crdn[0], crdn[1]);
+        
+        //TaskList에 추가
         GameManager.instance.taskDATA.taskListMap[_taskType.ToString()].Add(taskUnit);
     }
 
@@ -56,7 +60,9 @@ public class Task
         Property.TaskType _taskType = GameManager.instance.property.taskType;
 
         TaskUnitNickel taskUnit = new TaskUnitNickel(_taskType, taskID, gameObjects);
+
         GameManager.instance.taskDATA.taskListMap[_taskType.ToString()].Add(taskUnit);
+
     }
 }
 
@@ -78,23 +84,53 @@ public class TaskUnit
     public Property.TaskType TaskType;
     public float[] Crdn = new float[2];
     public GameObject TaskObject;
+    public GameObject RecordLine { get; private set; }
+
+    public TaskUnit() {} // 기본 생성자 추가
 
     public TaskUnit(Property.TaskType _taskType, int _taskID, float _x, float _y){
         TaskType = _taskType;
         TaskID = _taskID;
         Crdn[0] = _x;
         Crdn[1] = _y;
-        TaskObject = GameManager.Instance.objectsManager.InstantiateObject(_taskType, _taskID, _x, _y);
+        GameObject _record = GameManager.Instance.uiManager.CreateRecord(GameManager.Instance.taskDATA.taskListMap[_taskType.ToString()].Count.ToString(), _taskID.ToString(), "" + _x + ", " + _y);
+        TaskObject = GameManager.Instance.objectsManager.InstantiateObject(_taskType, _taskID, _x, _y, _record);
     }
+
+
+    // TaskUnit 생성 시 Record를 연결
+    public void LinkRecord(GameObject _gameObject){
+        RecordLine = _gameObject;
+    }
+    // 여기서 TaskUnit 자체 삭제 처리 (Task 목록에서도 제거)
 }
 
 public class TaskUnitNickel : TaskUnit
 {
     public TaskUnitNickel(Property.TaskType _taskType, int _taskID, GameObject[] _objects) : base(_taskType, _taskID, 0, 0)
     {
-        TaskObject = GameManager.Instance.objectsManager.InstantiateObject(_objects);
+        GameObject _record = RecordValue(_taskType, _taskID, _objects);
+        TaskObject = GameManager.Instance.objectsManager.InstantiateObject(_objects, _record);
         Debug.Log(TaskObject.name);
         ActivateArm();
+    }
+
+    GameObject RecordValue(Property.TaskType _taskType, int _taskID, GameObject[] _objects){
+
+        string num = GameManager.instance.taskDATA.taskListMap[_taskType.ToString()].Count.ToString();
+
+        string first = _taskID.ToString();
+
+        string second = "";
+
+        if(_objects.Length % 2 == 0){
+            second = "" + (_objects[_objects.Length / 2].transform.position.x + _objects[_objects.Length / 2 + 1].transform.position.x) / 2 + 
+            ", " + (_objects[_objects.Length / 2].transform.position.y + _objects[_objects.Length / 2 + 1].transform.position.y) / 2;
+        }else{
+            second = "" +  _objects[_objects.Length / 2].transform.position.x + ", " + _objects[_objects.Length / 2].transform.position.y;
+        }
+
+        return GameManager.Instance.uiManager.CreateRecord(num, first, second);
     }
 
     void ActivateArm(){
@@ -129,26 +165,32 @@ public class TaskUnitNickel : TaskUnit
     }
 }
 
-// class CreateTask{
-//     float[] crdn = new float[2];
-//     public CreateTask(float[] crdn){
-//         this.crdn = crdn;
-//         Task();
-//     }
-//     //알아서 현재 작업중인 모드의 어떤 오브젝트를 놓는지 반환됨
-//     int taskID = GameManager.instance.property.GetNowTaskTypeID();
-//     //현재 작업중인 모드
-//     Property.TaskType _taskType = GameManager.instance.property.taskType;
-//     //Task를 만들고 TaskList에 추가
-//     void Task(){
-//         TaskUnit taskUnit = new TaskUnit(_taskType, taskID, crdn[0], crdn[1]);
-//         GameManager.instance.taskDATA.taskListMap[_taskType.ToString()].Add(taskUnit);
-//     }
-// }
+public class WeldingTask : TaskUnit
+{
+    public float Point;
+    public float Time;
+    public float Current;
+    public float Press;
+
+    public WeldingTask(Property.TaskType _taskType, float _x, float _y, float[] _status, GameObject _record) : base()
+    {
+        TaskType = _taskType;
+        TaskID = 0;
+        Crdn[0] = _x;
+        Crdn[1] = _y;
+
+        Point = _status[0];
+        Time = _status[1];
+        Current = _status[2];
+        Press = _status[3];
+
+        TaskObject = GameManager.Instance.objectsManager.InstantiateObject(_taskType, TaskID, _x, _y, _record);
+    }
+}
 
 class EraseTask{
     public EraseTask(GameObject _gameObject){
-        String searchTag = "";
+        string searchTag = "";
         if(_gameObject.tag == "NickelPoint"){
             searchTag = "Nickel";
             _gameObject = _gameObject.transform.parent.gameObject;

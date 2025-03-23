@@ -9,6 +9,8 @@ public abstract class Object_Script : MonoBehaviour
 
     public Vector3 ThisScale;
 
+    public GameObject RecordObj;
+
     public void SetLayerMask(){
         switch(gameObject.tag){
             case "Holder":
@@ -48,9 +50,18 @@ public abstract class Object_Script : MonoBehaviour
         }
     }
 
+    public void DeleteRecord()
+    {
+        if (RecordObj != null)
+        {
+            Destroy(RecordObj); // Viewport의 Record 한 줄 삭제
+        }
+    }
+
     //오브젝트 삭제 시작
     virtual public Collider[] StartDestory(){
         int index = 0;
+        DeleteRecord();
         foreach(Collider _col in colliders){
             _col.GetComponent<Pixels>().InitColliders();
             if(index == colliders.Length - 1){

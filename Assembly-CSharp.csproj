@@ -65,11 +65,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets/Script/WeldingPixel.cs" />
+    <Compile Include="Assets/New Script/UIManager.cs" />
     <Compile Include="Assets/Script/AllScript.cs" />
     <Compile Include="Assets/Script/UIController.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/TMP_TextEventHandler.cs" />
     <Compile Include="Assets/New Script/InputManager.cs" />
-    <Compile Include="Assets/Script/MoveWithMouse.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/VertexShakeA.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/TMP_ExampleScript_01.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/TMPro_InstructionOverlay.cs" />
@@ -132,6 +132,7 @@
     <Compile Include="Assets/Script/SaveData.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/Benchmark03.cs" />
     <Compile Include="Assets/New Script/Nickel_Script.cs" />
+    <Compile Include="Assets/New Script/MoveWithMouse.cs" />
     <Compile Include="Assets/Script/Nickel_Pixel.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/TMP_TextInfoDebugTool.cs" />
   </ItemGroup>
